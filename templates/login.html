@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+<br/><br/>
+    <style type="text/css">
+    #vertical{
+        position:absolute;
+        top:50%; /* adjust this as needed */
+        left:0;
+        width:100%;
+        text-align:center;
+    }
+    #container {
+        position:relative;
+        height:200px;
+        border:0px solid #000;
+    }
+    </style>
+
+<div id="container">
+<div id="vertical">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <a href="{{ url_for('index') }}"><img src="http://image.ibb.co/f6Fr3b/1j_ojl1_FOMk_X9_Wypf_Be43_D6kjf6_Dr_BRLm_Bj_Jw_Xs1_M3_EMo_AJtl_SEr_jpgg_PBt9.png" alt="LocatoGram" border="0"></a>
+            </div>
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                <form action="{{ url_for('login') }}" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" name="password" placeholder="Password" type="password"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-default" type="submit">Log In</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

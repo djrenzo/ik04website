@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Omgeving
+{% endblock %}
+
+{% block main %}
+
+    <div style="text-align: center;">
+       <img src="https://fthmb.tqn.com/BFOuJ7esfMbaiQ3pkixGKJpCCZI=/1200x800/filters:no_upscale():fill(transparent,1)/stockinvesting-5824dac45f9b58d5b1b85692.png" style="max-width: 50%; height: auto;" alt="stocksmall" />
+    </div>
+
+    <br />
+    <form action="{{ url_for('omgeving') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="stocksymbol" placeholder="Stock Symbol" type="text"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Search</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
