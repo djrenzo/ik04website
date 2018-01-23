@@ -3,6 +3,8 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
+from werkzeug import secure_filename
+import os
 
 from helpers import *
 
@@ -25,10 +27,11 @@ app.jinja_env.filters["usd"] = usd
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["UPLOAD_FOLDER"] = '/home/ubuntu/workspace/IK04/upload'
 Session(app)
 
 # configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///website.db")
 
 @app.route("/")
 @login_required
@@ -43,7 +46,7 @@ def vrienden():
     """Fotos van Vrienden."""
     if request.method == "GET":
         # foto's van vrienden hier
-        return render_template("vrienden.html")
+        return render_template("vrienden.html", items=[i for i in range(6)])
 
     else:
 
@@ -105,7 +108,7 @@ def logout():
 def omgeving():
     """Fotos uit je omgeving."""
     if request.method == "GET":
-        return render_template("omgeving.html")
+        return render_template("omgeving.html", items=[i for i in range(20)])
 
     else:
         return render_template("omgeving.html")
@@ -115,7 +118,7 @@ def omgeving():
 def profiel():
     """Profiel Laten Zien"""
     if request.method == "GET":
-        return render_template("profiel.html")
+        return render_template("profiel.html", items=[i for i in range(20)])
 
     else:
         return redirect(url_for("index"))
@@ -162,9 +165,18 @@ def register():
 @login_required
 def upload():
     """Upload pictures."""
-    if request.method == "GET":
-        return render_template("upload.html")
+    if request.method == "POST":
+        file = request.files['upload']
+        filename = secure_filename(file.filename)
+        streepje = "-"
+        unieke_foto = (str(session["user_id"]), filename)
+        unieke_foto_join = streepje.join(unieke_foto)
+        path_filename = os.path.join(app.config["UPLOAD_FOLDER"], unieke_foto_join)
+        file.save(path_filename)
+
+        db.execute("INSERT INTO photos (user_id, file_name,locatie) VALUES (:user_id, :file_name,:locatie)", \
+        user_id = session["user_id"], file_name = path_filename, locatie = 6)
+        return redirect(url_for("index"))
 
     else:
-        userid = session["user_id"]
-        return redirect(url_for("index"))
+        return render_template("upload.html")
