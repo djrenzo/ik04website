@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block main %}
-    </br></br>
-    <input type="file" accept="image/*" onchange="loadFile(event)">
-    <img id="output"/>
-    <script>
-        var loadFile = function(event) {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        };
-    </script>
+    <form action="/upload" method="post" enctype="multipart/form-data" >
+      <span class="btn btn-default btn-file">
+        Browse <input type="file" name="upload">
+      </span>
+
+    <button type="submit" class="btn btn-primary">Upload image</button>
+  </form>
 {% endblock %}
+
+
