@@ -5,29 +5,41 @@
 {% endblock %}
 
 {% block main %}
-<script>
+    <html>
+<head>
+<style>
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 360px;
+}
 
-$(".nav a").on("click", function(){
-  $(".nav").find(".active").removeClass("active");
-  $(this).parent().addClass("active");
-});
+div.gallery:hover {
+    border: 1px solid #777;
+}
 
-</script>
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
 
-    How many shares would you want to buy?<br />
-    <br />
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+{% for item in items %}
+<div class="gallery">
+  <a target="_blank" href="fjords.jpg">
+    <img src="https://www.w3schools.com/css/img_fjords.jpg" alt="Fjords" width="300" height="200">
+  </a>
+  <div class="desc">{{item}}</div>
+</div>
+{% endfor %}
 
-    <form action="{{ url_for('vrienden') }}" method="post">
-        <fieldset>
-            <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="stocksymbol" placeholder="Stock Symbol" type="text"/>
-            </div>
-            <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="amount_shares" placeholder="Amount of Shares" type="text"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-default" type="submit">Buy</button>
-            </div>
-        </fieldset>
-    </form>
+</body>
+</html>
 {% endblock %}

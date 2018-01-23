@@ -43,7 +43,7 @@ def vrienden():
     """Fotos van Vrienden."""
     if request.method == "GET":
         # foto's van vrienden hier
-        return render_template("vrienden.html")
+        return render_template("vrienden.html", items=[i for i in range(6)])
 
     else:
 
@@ -115,7 +115,7 @@ def omgeving():
 def profiel():
     """Profiel Laten Zien"""
     if request.method == "GET":
-        return render_template("profiel.html")
+        return render_template("profiel.html", items=[i for i in range(20)])
 
     else:
         return redirect(url_for("index"))
