@@ -168,7 +168,10 @@ def upload():
     if request.method == "POST":
         file = request.files['upload']
         filename = secure_filename(file.filename)
-        path_filename = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        streepje = "-"
+        unieke_foto = (str(session["user_id"]), filename)
+        unieke_foto_join = streepje.join(unieke_foto)
+        path_filename = os.path.join(app.config["UPLOAD_FOLDER"], unieke_foto_join)
         file.save(path_filename)
 
         db.execute("INSERT INTO photos (user_id, file_name,locatie) VALUES (:user_id, :file_name,:locatie)", \
