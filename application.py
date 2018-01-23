@@ -105,7 +105,7 @@ def logout():
 def omgeving():
     """Fotos uit je omgeving."""
     if request.method == "GET":
-        return render_template("omgeving.html")
+        return render_template("omgeving.html", items=[i for i in range(20)])
 
     else:
         return render_template("omgeving.html")
