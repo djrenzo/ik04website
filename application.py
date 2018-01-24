@@ -118,6 +118,8 @@ def omgeving():
 def profiel():
     """Profiel Laten Zien"""
     if request.method == "GET":
+        #paths_profile = db.execute("SELECT file_name FROM photos WHERE user_id=:user_id", user_id = session["user_id"])
+
         return render_template("profiel.html", items=[i for i in range(20)])
 
     else:
