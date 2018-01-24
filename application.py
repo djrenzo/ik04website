@@ -69,7 +69,8 @@ def login():
     """Log user in."""
 
     # forget any user_id
-    session.clear()
+    #session.clear()
+    session["user_id"] = ""
 
     # if user reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
