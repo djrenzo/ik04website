@@ -4,7 +4,7 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 from werkzeug import secure_filename
-from werkzeug.wsgi import LimitedStream
+from flask import send_from_directory
 import os
 
 from helpers import *
@@ -168,6 +168,7 @@ def register():
 def upload():
     """Upload pictures."""
     if request.method == "POST":
+        dummy = request.form
         file = request.files['upload']
         filename = secure_filename(file.filename)
         streepje = "-"
@@ -182,3 +183,7 @@ def upload():
 
     else:
         return render_template("upload.html")
+
+@app.route('/upload/<filename>')
+def uploaded(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
