@@ -69,18 +69,21 @@ def login():
 
         # ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username")
+            flash('Provide a username')
+            return redirect(request.url)
 
         # ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password")
+            flash('Provide a password')
+            return redirect(request.url)
 
         # query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username", username=request.form.get("username"))
 
         # ensure username exists and password is correct
         if len(rows) != 1 or not pwd_context.verify(request.form.get("password"), rows[0]["hash"]):
-            return apology("invalid username and/or password")
+            flash('Invalid username/password')
+            return redirect(request.url)
 
         # remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -134,19 +137,23 @@ def register():
 
         # ensure username was submitted
         if not username:
-            return apology("must provide username")
+            flash('Provide a username')
+            return redirect(request.url)
 
         # ensure password was submitted
         elif not password:
-            return apology("must provide password")
+            flash('Provide a password')
+            return redirect(request.url)
 
         # ensure passwords are equal
         elif not password == request.form.get("password2"):
-            return apology("passwords must match!")
+            flash('Passwords must match')
+            return redirect(request.url)
 
         # check if username already taken
         elif db.execute("SELECT * FROM users WHERE username = :username", username=username):
-            return apology("This username already exists")
+            flash('This username already exists')
+            return redirect(request.url)
 
         # query database for username
         db.execute("INSERT INTO users (username, hash) VALUES(:username, :hash)",username=username, hash=pwd_context.hash(password))
@@ -167,6 +174,9 @@ def upload():
     """Upload pictures."""
     if request.method == "POST":
         file = request.files['upload']
+        if file.filename == '':
+            flash('Select a file')
+            return redirect(request.url)
         filename = secure_filename(file.filename)
         streepje = "-"
         unieke_foto = (str(session["user_id"]), filename)
