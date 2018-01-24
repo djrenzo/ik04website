@@ -4,8 +4,8 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 from werkzeug import secure_filename
-from flask import send_from_directory
 import os
+from flask import send_from_directory
 
 from helpers import *
 
@@ -27,7 +27,6 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["UPLOAD_FOLDER"] = 'upload'
-app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 Session(app)
 
 # configure CS50 Library to use SQLite database
@@ -118,10 +117,9 @@ def omgeving():
 def profiel():
     """Profiel Laten Zien"""
     if request.method == "GET":
-        #paths_profile = db.execute("SELECT file_name FROM photos WHERE user_id=:user_id", user_id = session["user_id"])
-
-        return render_template("profiel.html", items=[i for i in range(20)])
-
+        paths_profile = db.execute("SELECT file_name FROM photos WHERE user_id=:user_id", user_id = session["user_id"])
+        paths_profile_2 = [file["file_name"] for file in paths_profile]
+        return render_template("profiel.html", profile_photos = paths_profile_2)
     else:
         return redirect(url_for("index"))
 
@@ -168,7 +166,6 @@ def register():
 def upload():
     """Upload pictures."""
     if request.method == "POST":
-        dummy = request.form
         file = request.files['upload']
         filename = secure_filename(file.filename)
         streepje = "-"
@@ -178,7 +175,7 @@ def upload():
         file.save(path_filename)
 
         db.execute("INSERT INTO photos (user_id, file_name,locatie) VALUES (:user_id, :file_name,:locatie)", \
-        user_id = session["user_id"], file_name = path_filename, locatie = 6)
+        user_id = session["user_id"], file_name = unieke_foto_join, locatie = 6)
         return redirect(url_for("index"))
 
     else:
@@ -186,4 +183,5 @@ def upload():
 
 @app.route('/upload/<filename>')
 def uploaded(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
