@@ -8,7 +8,10 @@
 
      </br></br>
     <form action="/upload" method="post" enctype="multipart/form-data" >
-    <input type="file" name="upload" accept="image/*" onchange="loadFile(event)">
+    <label class="btn btn-primary"> Browse <input type="file" style="display: none;" name="upload" accept="image/*" onchange="loadFile(event)">
+    </label>
+    </br></br>
+
     <button type="submit" class="btn btn-primary">Upload image</button>
     <img id="output"/>
     <script>
