@@ -32,14 +32,9 @@ div.desc {
 </head>
 <body>
 
-<img src="{{ url_for('uploaded', filename='xx.jpg') }}" alt="NotFound" width="300" height="200">
-
-{% for item in items %}
+{% for photo in profile_photos %}
 <div class="gallery">
-  <a target="_blank" href="fjords.jpg">
-    <img src="xx.jpg" alt="Fjords" width="300" height="200">
-  </a>
-  <div class="desc">{{item}}</div>
+    <img src="{{ url_for('uploaded', filename = photo )}}" alt="NotFound" width="300" height="200">
 </div>
 {% endfor %}
 
