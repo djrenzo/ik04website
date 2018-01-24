@@ -31,10 +31,13 @@ div.desc {
 </style>
 </head>
 <body>
+
+<img src="{{ url_for('upload', filename='xx.jpg') }}" alt="NotFound" width="300" height="200">
+
 {% for item in items %}
 <div class="gallery">
   <a target="_blank" href="fjords.jpg">
-    <img src="https://www.w3schools.com/css/img_fjords.jpg" alt="Fjords" width="300" height="200">
+    <img src="xx.jpg" alt="Fjords" width="300" height="200">
   </a>
   <div class="desc">{{item}}</div>
 </div>
