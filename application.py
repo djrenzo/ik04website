@@ -52,10 +52,13 @@ def vrienden():
     """Fotos van Vrienden."""
     if request.method == "GET":
         # foto's van vrienden hier
-        return render_template("vrienden.html", items=[i for i in range(6)])
+
+        vrienden_photos_list = db.execute("SELECT p.file_name, u.username FROM users u, photos p, follow f " + \
+                   "WHERE f.user_id = :user_id and f.f_user_id = u.id and p.user_id = f.f_user_id", \
+                   user_id = session["user_id"])
+        return render_template("vrienden.html", vrienden_photos = vrienden_photos_list)
 
     else:
-
         return redirect(url_for("index"))
 
 @app.route("/trofee")
@@ -203,3 +206,39 @@ def upload():
 def uploaded(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
+
+@app.route("/follow", methods=["GET", "POST"])
+@login_required
+def follow():
+    """Fotos uit je omgeving."""
+    if request.method == "POST":
+
+        if not request.form.get("follow_username"):
+            flash('Provide a username')
+            return redirect(request.url)
+
+        user_row =  db.execute("SELECT id FROM users WHERE username=:username", username = request.form.get("follow_username"))
+
+        if not user_row:
+            flash('Provide an existing username')
+            return redirect(request.url)
+
+        f_user_id = user_row[0]["id"]
+        if f_user_id == session["user_id"]:
+            flash("You can't follow your own account")
+            return redirect(request.url)
+
+        if db.execute("SELECT user_id FROM follow WHERE user_id=:user_id and f_user_id=:f_user_id", \
+        user_id = session["user_id"], f_user_id = f_user_id):
+            flash("You already follow this account")
+            return redirect(request.url)
+
+        db.execute("INSERT INTO follow (user_id, f_user_id) VALUES (:user_id, :f_user_id)", \
+        user_id = session["user_id"], f_user_id = f_user_id)
+
+        return render_template("follow.html")
+
+    else:
+        return render_template("follow.html")
+
+
