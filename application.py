@@ -32,6 +32,13 @@ Session(app)
 # configure CS50 Library to use SQLite database
 db = SQL("sqlite:///website.db")
 
+@app.route('/postmethod', methods = ['POST'])
+def get_post_javascript_data():
+    jsdata = request.form['javascript_data']
+    db.execute("UPDATE users SET locatie = :locatie WHERE id = :id", locatie=lookup(jsdata)[5], id=session["user_id"])
+    print(lookup(jsdata)[5])
+    return jsdata
+
 @app.route("/")
 @login_required
 def index():

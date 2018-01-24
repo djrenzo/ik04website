@@ -61,12 +61,12 @@ def lookup(ip):
 
         # ensure stock exists
         try:
-            success = str(row[0])
+            success = row[0]
         except:
             return None
 
         # return stock's name (as a str), price (as a float), and (uppercased) symbol (as a str)
-        return str(row)
+        return row
 
     except:
         return None
