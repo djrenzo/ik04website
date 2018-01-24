@@ -4,8 +4,8 @@ from flask_session import Session
 from passlib.apps import custom_app_context as pwd_context
 from tempfile import mkdtemp
 from werkzeug import secure_filename
+from werkzeug.wsgi import LimitedStream
 import os
-from flask import send_from_directory
 
 from helpers import *
 
@@ -26,7 +26,8 @@ if app.config["DEBUG"]:
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["UPLOAD_FOLDER"] = 'static/upload'
+app.config["UPLOAD_FOLDER"] = 'upload'
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 Session(app)
 
 # configure CS50 Library to use SQLite database
@@ -181,8 +182,3 @@ def upload():
 
     else:
         return render_template("upload.html")
-
-@app.route('/upload/<filename>')
-def uploaded(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
