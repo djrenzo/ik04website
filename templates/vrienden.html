@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Vrienden
+    Profiel
 {% endblock %}
 
 {% block main %}
@@ -31,12 +31,10 @@ div.desc {
 </style>
 </head>
 <body>
-{% for item in items %}
+
+{% for photo in vrienden_photos %}
 <div class="gallery">
-  <a target="_blank" href="fjords.jpg">
-    <img src="https://www.w3schools.com/css/img_fjords.jpg" alt="Fjords" width="300" height="200">
-  </a>
-  <div class="desc">{{item}}</div>
+    <img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound" width="300" height="200">{{ photo["username"] }}
 </div>
 {% endfor %}
 
