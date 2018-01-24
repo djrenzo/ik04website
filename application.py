@@ -20,14 +20,12 @@ if app.config["DEBUG"]:
         response.headers["Pragma"] = "no-cache"
         return response
 
-# custom filter
-app.jinja_env.filters["usd"] = usd
 
 # configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["UPLOAD_FOLDER"] = '/home/ubuntu/workspace/IK04/upload'
+app.config["UPLOAD_FOLDER"] = '/home/ubuntu/workspace/IK04/static/upload'
 Session(app)
 
 # configure CS50 Library to use SQLite database
