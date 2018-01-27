@@ -53,13 +53,35 @@ def vrienden():
     if request.method == "GET":
         # foto's van vrienden hier
 
-        vrienden_photos_list = db.execute("SELECT p.file_name, u.username FROM users u, photos p, follow f " + \
+        vrienden_photos_list = db.execute("SELECT p.photo_id, p.file_name, u.username FROM users u, photos p, follow f " + \
                    "WHERE f.user_id = :user_id and f.f_user_id = u.id and p.user_id = f.f_user_id", \
                    user_id = session["user_id"])
         return render_template("vrienden.html", vrienden_photos = vrienden_photos_list)
 
     else:
-        return redirect(url_for("index"))
+        for i in request.form:
+            if i[:4] == "like":
+                photo_like_id = i[5:]
+            elif i[:7] == "dislike":
+                photo_like_id = i[8:]
+
+            if db.execute ("SELECT valuation_id FROM valuation WHERE user_id = :user_id and photo_id = :photo_id", \
+                            photo_id = photo_like_id, user_id = session["user_id"]):
+                if i[:4] == "like":
+                    db.execute("UPDATE valuation set like = :like WHERE user_id = :user_id and photo_id = :photo_id", \
+                                like = "TRUE", photo_id = photo_like_id, user_id = session["user_id"])
+                elif i[:7] == "dislike":
+                    db.execute("UPDATE valuation set like = :like WHERE user_id = :user_id and photo_id = :photo_id", \
+                                like = "FALSE", photo_id = photo_like_id, user_id = session["user_id"])
+            else:
+                if i[:4] == "like":
+                    db.execute("INSERT INTO valuation (photo_id, user_id, like) VALUES (:photo_id, :user_id,:like)", \
+                            photo_id = photo_like_id, user_id = session["user_id"], like = "TRUE")
+                elif i[:7] == "dislike":
+                    db.execute("INSERT INTO valuation (photo_id, user_id, like) VALUES (:photo_id, :user_id,:like)", \
+                            photo_id = photo_like_id, user_id = session["user_id"], like = "FALSE")
+
+        return redirect(url_for("vrienden"))
 
 @app.route("/trofee")
 @login_required
@@ -240,5 +262,3 @@ def follow():
 
     else:
         return render_template("follow.html")
-
-
