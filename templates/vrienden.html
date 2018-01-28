@@ -31,12 +31,18 @@ div.desc {
 </style>
 </head>
 <body>
-
+<form action="{{ url_for('vrienden') }}" method="post">
+    <fieldset>
 {% for photo in vrienden_photos %}
 <div class="gallery">
     <img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound" width="300" height="200">{{ photo["username"] }}
+    <input type="submit" name="like-{{photo['photo_id']}}" value="Like">
+    <input type="submit" name="dislike-{{photo['photo_id']}}" value="Dislike">
 </div>
 {% endfor %}
+ </fieldset>
+</form>
+
 
 </body>
 </html>
