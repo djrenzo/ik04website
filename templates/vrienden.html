@@ -35,15 +35,24 @@ div.desc {
     <fieldset>
 {% for photo in vrienden_photos %}
 <div class="gallery">
-    <img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound" width="300" height="200">{{ photo["username"] }}
-    <input type="submit" name="like-{{photo['photo_id']}}" value="Like">
-    <input type="submit" name="dislike-{{photo['photo_id']}}" value="Dislike">
+    <img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound" width="300" height="200">
+    <br>
+    <p> Gemaakt door {{ photo["username"] }}</p>
+    {{ photo["caption"] }}
+    <br>
+    {{ photo["likes"] }}
+    <button class="btn btn-success" type="submit" name="like-{{photo['photo_id']}}" >
+        <i class="fa fa-thumbs-up"></i>
+    </button>
+    <button class="btn btn-danger" type="submit" name="dislike-{{photo['photo_id']}}" >
+        <i class="fa fa-thumbs-down"></i>
+    </button>
+    {{ photo["dislikes"] }}
+    <br>
 </div>
 {% endfor %}
  </fieldset>
 </form>
-
-
 </body>
 </html>
 {% endblock %}
