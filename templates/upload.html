@@ -5,8 +5,7 @@
 {% endblock %}
 
 {% block main %}
-
-     </br></br>
+    </br></br>
     <form action="/upload" method="post" enctype="multipart/form-data" >
     <label class="btn btn-primary"> Browse <input type="file" style="display: none;" name="upload" accept="image/*" onchange="loadFile(event)">
     </label>
@@ -15,15 +14,69 @@
     </div>
     </br></br>
 
+    <div id="uploadMap" style="height: 400px"></div>
+    </br></br>
     <button type="submit" class="btn btn-primary">Upload image</button>
     <img id="output"/>
+    </form>
+
     <script>
         var loadFile = function(event) {
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);
         };
-    </script>
-    </form>
+
+        var map;
+        var woonplaats;
+        function myMap() {
+            map = new google.maps.Map(document.getElementById("uploadMap"), {
+                center: {lat: 52.37783, lng: 4.87995},
+                zoom: 10
+            });
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                var lat = event.latLng.lat();
+                var long = event.latLng.lng();
+
+                var geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(lat,long);
+
+                geocoder.geocode({'latLng': latlng}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    // return locatie
+                    woonplaats = results[0].address_components[2].short_name;
+                    return woonplaats
+                } else {
+                    alert("Geocoder failed due to: " + status);
+                }});
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: woonplaats
+                });
+                // init infowindow
+                infowindow.open(map, marker)
+                placeMarker(event.latLng);
+            });
+        };
+
+        var marker;
+        function placeMarker(location) {
+                if (marker == null) {
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map
+                    });
+                } else {
+                    marker.setPosition(location);
+                }
+        };
+
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDWCcUbrpBkshwNybWm1Ivis7E3hidbpk&callback=myMap"
+async defer></script>
+</script>
+
 
 {% endblock %}
 
