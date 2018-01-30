@@ -37,6 +37,7 @@
               -moz-background-size: cover;
               -o-background-size: cover;
               background-size: cover;
+              padding-top: 65px;
             }
             </style>
 
@@ -90,16 +91,19 @@
               -moz-background-size: cover;
               -o-background-size: cover;
               background-size: cover;
+
             }
             </style>
             {% endif %}
             {% if get_flashed_messages() %}
-                <header>
-                    <div class="alert alert-info" role="alert">
-                        {{ get_flashed_messages() | join(" ") }}
-                    </div>
-                </header>
+            <header>
+                <div class="alert alert-info" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
             {% endif %}
+
+
 
             <main>
                 {% block main %}{% endblock %}
