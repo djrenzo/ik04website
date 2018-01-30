@@ -14,16 +14,24 @@ class Upload:
         path_filename = os.path.join(app.config["UPLOAD_FOLDER"], unieke_foto_join)
         file.save(path_filename)
 
-        db.execute("INSERT INTO photos (user_id, file_name,locatie) VALUES (:user_id, :file_name,:locatie)", \
-        user_id = userid, file_name = unieke_foto_join, locatie = 6)
+        caption = request.form.get("photo_caption")
+
+        db.execute("INSERT INTO photos (user_id, file_name,locatie, caption) VALUES (:user_id, :file_name,:locatie,:caption)", \
+        user_id = userid, file_name = unieke_foto_join, locatie = 6, caption = caption)
         return redirect(url_for("profiel"))
 
 class Friends:
 
     def getFriendsPhotos(self, userid):
-        return db.execute("SELECT p.photo_id, p.file_name, u.username FROM users u, photos p, follow f " + \
-                   "WHERE f.user_id = :user_id and f.f_user_id = u.id and p.user_id = f.f_user_id", \
-                   user_id = userid)
+        return db.execute("SELECT CASE WHEN p.caption IS NULL THEN '' ELSE p.caption END as caption, p.photo_id, " + \
+        "p.file_name, u.username, count(vl.photo_id) as likes, count(vd.photo_id) as dislikes " + \
+        "FROM users u, photos p, follow f " + \
+        "LEFT OUTER JOIN valuation vl ON (vl.photo_id = p.photo_id and vl.like = 'TRUE') " + \
+        "LEFT OUTER JOIN valuation vd ON (vd.photo_id = p.photo_id and vd.like = 'FALSE') " + \
+        "WHERE f.user_id = :user_id and f.f_user_id = u.id and p.user_id = f.f_user_id " + \
+        "GROUP BY p.photo_id", \
+        user_id = userid)
+
 
     def setLike(self, request, userid):
 
