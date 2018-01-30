@@ -35,6 +35,7 @@ Session(app)
 
 
 @app.route('/postmethod', methods = ['POST'])
+@login_required
 def get_post_javascript_data():
     print(lookup(request.form['javascript_data'])[5])
     return user_class.setLocation(lookup(request.form['javascript_data'])[5], session["user_id"])
@@ -42,7 +43,11 @@ def get_post_javascript_data():
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    if session["user_id"] == "":
+        return redirect(url_for("login"))
+    else:
+
+        return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -72,7 +77,7 @@ def login():
     if request.method == "POST":
         user_class.login(request)
 
-        if user_class.valid == False:
+        if user_class.valid == False or user_class.userid == "":
             return redirect(request.url)
 
         else:
