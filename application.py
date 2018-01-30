@@ -97,7 +97,6 @@ def logout():
 def vrienden():
     """Fotos van Vrienden."""
     if request.method == "GET":
-
         # foto's van vrienden hier
         return render_template("vrienden.html", vrienden_photos = friends.getFriendsPhotos(session["user_id"]))
 
@@ -117,7 +116,6 @@ def omgeving():
     """Fotos uit je omgeving."""
     if request.method == "GET":
         return render_template("omgeving.html", items=[i for i in range(20)])
-
     else:
         return render_template("omgeving.html")
 
