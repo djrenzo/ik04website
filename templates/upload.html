@@ -18,6 +18,7 @@
     </br></br>
     <button type="submit" class="btn btn-primary">Upload image</button>
     <img id="output"/>
+    <input type="hidden" id=plaats_id name=plaats></input>
     </form>
 
     <script>
@@ -27,7 +28,7 @@
         };
 
         var map;
-        var woonplaats;
+        var plaats;
         function myMap() {
             map = new google.maps.Map(document.getElementById("uploadMap"), {
                 center: {lat: 52.37783, lng: 4.87995},
@@ -44,17 +45,19 @@
                 geocoder.geocode({'latLng': latlng}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     // return locatie
-                    woonplaats = results[0].address_components[2].short_name;
-                    return woonplaats
+                    for (var i = 0; i < results[0].address_components.length; i++)
+                    {
+                        var addr = results[0].address_components[i];
+                        if (addr.types[0] == 'locality')
+                        {
+                            document.getElementById('plaats_id').value = addr.long_name;
+                            plaats=addr.long_name;
+                        }
+                    }
                 } else {
                     alert("Geocoder failed due to: " + status);
                 }});
 
-                var infowindow = new google.maps.InfoWindow({
-                    content: woonplaats
-                });
-                // init infowindow
-                infowindow.open(map, marker)
                 placeMarker(event.latLng);
             });
         };

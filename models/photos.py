@@ -7,7 +7,7 @@ import os
 db = SQL("sqlite:///website.db")
 
 class Upload:
-    def picUpload(self, file, userid, app):
+    def picUpload(self, file, userid, app, plaats):
         filename = secure_filename(file.filename)
         unieke_foto = (str(session["user_id"]), filename)
         unieke_foto_join = "-".join(unieke_foto)
@@ -17,7 +17,7 @@ class Upload:
         caption = request.form.get("photo_caption")
 
         db.execute("INSERT INTO photos (user_id, file_name,locatie, caption) VALUES (:user_id, :file_name,:locatie,:caption)", \
-        user_id = userid, file_name = unieke_foto_join, locatie = 6, caption = caption)
+        user_id = userid, file_name = unieke_foto_join, locatie = plaats, caption = caption)
         return redirect(url_for("profiel"))
 
 class Friends:

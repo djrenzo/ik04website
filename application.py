@@ -137,12 +137,12 @@ def profiel():
 def upload():
     """Upload pictures."""
     if request.method == "POST":
-
+        plaats = request.form.get("plaats")
         file = request.files['upload']
         if file.filename == '':
             flash('Select a file')
             return redirect(request.url)
-        return upl.picUpload(file, session["user_id"], app)
+        return upl.picUpload(file, session["user_id"], app, plaats)
 
     else:
         return render_template("upload.html")
