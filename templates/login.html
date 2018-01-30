@@ -20,35 +20,29 @@
         border:0px solid #000;
     }
     </style>
-
-<div id="container">
-<div id="vertical">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <a href="{{ url_for('index') }}"><img src="http://image.ibb.co/f6Fr3b/1j_ojl1_FOMk_X9_Wypf_Be43_D6kjf6_Dr_BRLm_Bj_Jw_Xs1_M3_EMo_AJtl_SEr_jpgg_PBt9.png" alt="LocatoGram" border="0"></a>
+        <div style="margin-top: 125px;">
+            <div class="logo">
+                <a href="{{ url_for('index') }}"><img class="img" style="height: 200px; width: auto;" src="http://image.ibb.co/f6Fr3b/1j_ojl1_FOMk_X9_Wypf_Be43_D6kjf6_Dr_BRLm_Bj_Jw_Xs1_M3_EMo_AJtl_SEr_jpgg_PBt9.png" alt="LocatoGram" border="0"></a>
             </div>
-            <div class="col-sm">
-            </div>
-            <div class="col-sm">
-                <form action="{{ url_for('login') }}" method="post">
+            </br>
+                <form action="{{ url_for('login') }}"  method="post" >
                     <fieldset>
                         <div class="form-group">
-                            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+                            <input style="width: 350px; padding: 7px" autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="password" placeholder="Password" type="password"/>
+                            <input style="width: 350px; padding: 7px" class="form-control" name="password" placeholder="Password" type="password"/>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-default" type="submit">Log In</button>
+                            <button style="width: 350px; padding: 7px; background-color: #ddd;" class="btn btn-default" type="submit">Log In</button>
                         </div>
                     </fieldset>
                 </form>
             </div>
-        </div>
-    </div>
-</div>
-</div>
-
+            <div>
+                <section class="thin-shade">
+                  <span>Dont have an account yet? Click <a href="{{ url_for('register') }}">here</a>to sign up!</span>
+                </section>
+            </div>
 
 {% endblock %}
