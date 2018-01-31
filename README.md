@@ -64,6 +64,10 @@ http://api.giphy.com/
 SafyGiphy Python wrapper voor de Giphy API
 https://github.com/StewPoll/safygiphy
 
+Voorwaarde voor het correct functioneren van de website is het installeren van safygiphy.
+Voer hiervoor het commando 'pip install safygiphy' uit.
+
+
 #### Rolverdeling
 -    Dieko: Heeft zich zoveel mogelijk beziggehouden met de locatie-functionaliteit en de Google API
 -    Julien: Heeft het meerendeel van SQL queries geschreven en ervoor gezorgd dat de database goed functioneert.
