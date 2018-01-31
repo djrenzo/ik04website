@@ -43,7 +43,21 @@ class Friends:
 
 class Profile:
     def getProfilePhotos(self, userid):
-        return [file["file_name"] for file in db.execute("SELECT file_name FROM photos WHERE user_id=:user_id", user_id = userid)]
+
+        return db.execute("SELECT CASE WHEN p.caption IS NULL THEN '' ELSE p.caption END as caption, p.photo_id, " + \
+        "p.file_name, u.username, " + \
+        "CASE WHEN l.likes IS NULL THEN 0 ELSE l.likes END as likes, " + \
+        "CASE WHEN d.dislikes IS NULL THEN 0 ELSE d.dislikes END as dislikes " + \
+        "FROM photos p " + \
+        "JOIN users u ON p.user_id = u.id " + \
+        "LEFT OUTER JOIN " + \
+        "(select photo_id, count(vl.photo_id) as likes from valuation vl where vl.like = 'TRUE' " + \
+        "GROUP BY vl.photo_id) l ON l.photo_id = p.photo_id " + \
+        "LEFT OUTER JOIN " + \
+        "(select photo_id, count(vd.photo_id) as dislikes from valuation vd where vd.like = 'FALSE' " + \
+        "GROUP BY vd.photo_id) d ON d.photo_id = p.photo_id " + \
+        "WHERE p.user_id = :user_id", \
+        user_id = userid)
 
 class Omgeving:
     def getOmgevingPhotos(self, userid):
