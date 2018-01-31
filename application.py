@@ -48,20 +48,6 @@ def get_javascript_data():
     # lookup adress from ip and set in db
     return user_class.setLocation(lookup(request.form['javascript_data'])[5], session["user_id"])
 
-# Post a gif
-@app.route('/gifpost', methods = ['POST'])
-@login_required
-def gifpost():
-    print(request.form.get("gifs"))
-
-    gif_link = "https://media.giphy.com/media/{}/giphy.gif".format(request.form.get("gif_id"))
-    gif_photo_id = request.form.get("photo_id")
-
-    # add gif to db
-    friend.registerGif( gif_photo_id, gif_link)
-    print("giflink=",gif_link,"gfid=",gif_photo_id)
-    return redirect(url_for("friends"))
-
 
 @app.route("/")
 @login_required
@@ -121,6 +107,7 @@ def logout():
     # redirect user to login form
     return redirect(url_for("login"))
 
+
 @app.route("/friends", methods=["GET", "POST"])
 @login_required
 def friends():
@@ -132,8 +119,15 @@ def friends():
         g = safygiphy.Giphy()
 
         # get the top trending gifs
-        gif = [g.trending()["data"][x]["id"] for x in range(1,20)]
+        gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
         return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
+
+    else:
+        gif_link = request.form.get("gif_link_name")
+        gif_photo_id = request.form.get("gif_photo_name")
+        friend.registerGif( gif_photo_id, gif_link)
+        return redirect(url_for("friends"))
+
 
 @app.route("/trophy")
 @login_required

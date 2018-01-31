@@ -86,8 +86,6 @@ div.gallery .bottom-content {
     {{ photo["dislikes"] }}
     </div>
     </div>
-
-
 </div>
 
 <!-- Modal -->
@@ -95,24 +93,15 @@ div.gallery .bottom-content {
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">{{ photo['photo_id'] }}</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Click on the photo below to see comment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <div><img onload="showGiph('{{ photo['gif'] }}', '{{ photo['file_name'] }}', '{{ photo['photo_id'] }}')" style="hight: 170%; width: auto;" src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
-
+            <div><img onclick="showGiph('{{ photo['gif'] }}', '{{ photo['file_name'] }}', '{{ photo['photo_id'] }}')" style="hight: 170%; width: auto;" src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
       </div>
-      <div id="comments-{{ photo['file_name'] }}">
-
-      </div>
-      <div>
-          <form id="gif_form-{{ photo['photo_id'] }}" action="{{ url_for('gifpost') }}" method="post" enctype="multipart/form-data" >
-              <input type="hidden" id="gif_id-{{ photo['photo_id'] }}" name="gif_id"></input>
-              <input type="hidden" id="photo_id-{{ photo['photo_id'] }}" name="photo_id"></input>
-          </form>
-      </div>
+      <div id="comments-{{ photo['file_name'] }}"></div>
       <div class="modal-footer">
           <div style="border:1px solid black;height:100px;width:100%;overflow-y:hidden;overflow-x:scroll;">
             <p style="width:600%;">
@@ -124,7 +113,6 @@ div.gallery .bottom-content {
                         var img = document.createElement('img');
                         img.setAttribute('src', `https://media.giphy.com/media/${idnumber}/giphy.gif`);
                         img.setAttribute('style', `height:100px; width: auto`);
-
                         if (document.getElementById(`comments-${photonumber}`).childElementCount > 0)
                         {
                             var list = document.getElementById(`comments-${photonumber}`);
@@ -132,14 +120,12 @@ div.gallery .bottom-content {
                         }
                         document.getElementById(`comments-${photonumber}`).appendChild(img);
 
-                        document.getElementById(`gif_id-${gif_photo_id}`).value = `${idnumber}`;
-                        document.getElementById(`photo_id-${gif_photo_id}`).value = `${gif_photo_id}`;
-
-
+                        document.getElementById(`gif_link_id`).value = `https://media.giphy.com/media/${idnumber}/giphy.gif`;
+                        document.getElementById(`gif_photo_id`).value = `${gif_photo_id}`;
                     }
 
                     function showGiph(giflink, photonumber, gif_photo_id) {
-                        if (giflink =='')
+                        if (giflink == '')
                             return;
                         var img = document.createElement('img');
                         img.setAttribute('src', `${giflink}`);
@@ -155,17 +141,11 @@ div.gallery .bottom-content {
                         document.getElementById(`gif_photo_id`).value = `${gif_photo_id}`;
                     }
                     </script>
-
                 {% endfor %}
             </p>
         </div>
       </div>
-      <input type="button" onclick="commentGiph('gif_form-{{ photo['photo_id'] }}')" name="btn" value="Comment"></button>
-      <script>
-      function commentGiph(form) {
-                        document.getElementById(form).submit();
-                    }
-      </script>
+      <button type="submit" name="submit_gif" value="Comment">Comment</button>
     </div>
   </div>
 </div>
