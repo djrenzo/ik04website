@@ -8,6 +8,7 @@ db = SQL("sqlite:///website.db")
 
 class Upload:
     def picUpload(self, file, userid, app, plaats):
+        # save photo in uploads folder
         filename = secure_filename(file.filename)
         unieke_foto = (str(session["user_id"]), filename)
         unieke_foto_join = "-".join(unieke_foto)
@@ -24,6 +25,7 @@ class Friends:
 
     def getFriendsPhotos(self, userid):
 
+        # selects photos and captions of friends of user from db
         return db.execute("SELECT CASE WHEN p.caption IS NULL THEN '' ELSE p.caption END as caption, p.photo_id, " + \
         "p.file_name, u.username, p.gif, " + \
         "CASE WHEN l.likes IS NULL THEN 0 ELSE l.likes END as likes, " + \
@@ -40,6 +42,7 @@ class Friends:
 
         return redirect(url_for("surrounding"))
 
+        # add gif id to the db
     def registerGif(self, photo_id, link):
         db.execute("UPDATE photos SET gif = :gif WHERE photo_id = :photo_id", gif=link, photo_id=photo_id)
 
@@ -48,6 +51,7 @@ class Friends:
 class Profile:
     def getProfilePhotos(self, userid):
 
+        # selects photos and captions of only the user from db
         return db.execute("SELECT CASE WHEN p.caption IS NULL THEN '' ELSE p.caption END as caption, p.photo_id, " + \
         "p.file_name, u.username, " + \
         "CASE WHEN l.likes IS NULL THEN 0 ELSE l.likes END as likes, " + \
