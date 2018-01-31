@@ -175,3 +175,13 @@ def follow():
 
     else:
         return render_template("follow.html")
+
+@app.route("/unfollow", methods=["GET", "POST"])
+@login_required
+def unfollow():
+    """Fotos uit je omgeving."""
+    if request.method == "POST":
+        return user_class.unfollowUser(request, session["user_id"])
+
+    else:
+        return render_template("unfollow.html")

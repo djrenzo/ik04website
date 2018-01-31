@@ -99,3 +99,30 @@ class Users:
         flash("You now follow " + request.form.get("follow_username"))
         return redirect(request.url)
 
+    def unfollowUser(self, request, userid):
+
+        if not request.form.get("unfollow_username"):
+            flash('Provide a username')
+            return redirect(request.url)
+
+
+        user_row = db.execute("SELECT id FROM users WHERE username=:username", username = request.form.get("unfollow_username"))
+
+        if not user_row:
+            flash('Provide an existing username')
+            return redirect(request.url)
+
+        f_user_id = user_row[0]["id"]
+
+        user_row_2 = db.execute("SELECT follow_id FROM follow WHERE user_id=:user_id and f_user_id = :f_user_id", \
+                    user_id = userid ,f_user_id = f_user_id)
+
+        if not user_row_2:
+            flash('Provide an username that you follow')
+            return redirect(request.url)
+
+        db.execute("DELETE FROM follow WHERE user_id=:user_id and f_user_id = :f_user_id", user_id = userid ,f_user_id = f_user_id)
+
+        flash("You now unfollow " + request.form.get("unfollow_username"))
+        return redirect(request.url)
+
