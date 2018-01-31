@@ -16,15 +16,15 @@ Het doel van onze website is om bezoekers van steden, zoals toeristen, te helpen
 
 -    Alle gebruikers kunnen elkaar “volgen”. Hierna kunnen beide elkaar foto's bekijken.
 
--    Alle gebruikers kunnen gebruikers die zij volgen niet meer volgen.
+-    Alle gebruikers kunnen gebruikers die zij volgen, ontvolgen.
 
 -    Gebruikers kunnen foto's uit de omgeving waar zij zich bevinden bekijken en :two_hearts:.
 
--    Gebruikers kunnnen de locaties waar de foto is genomen bij het uploaden van een foto toevoegen. Dit geeft de mogelijkheid aan gebruikers om andere foto’s te bekijken die genomen zijn in de omgeving van de gebruiker.
+-    Gebruikers kunnnen de locatie waar de foto is genomen bij het uploaden van een foto toevoegen. Dit geeft de mogelijkheid aan gebruikers om andere foto’s te bekijken die genomen zijn in de omgeving van de gebruiker.
 
--    Als gebruiker kan je trofeeën verzamelen als je  bepaalde scores behaalt.
+-    Als gebruiker kan je trofeeën verzamelen als je bepaalde scores behaalt.
 
--    Gebruikers kunnen alleen reageren op foto's met GIFjes. GIFjes worden ondersteund door de Giphy API.
+-    Gebruikers kunnen reageren op foto's met GIFjes. GIFjes worden ondersteund door de Giphy API.
 
 -    Gebruikers kunnen hun eigen profiel bekijken met hun eigen foto's.
 
@@ -36,15 +36,15 @@ Het doel van onze website is om bezoekers van steden, zoals toeristen, te helpen
 
 -   [x] Alle gebruikers kunnen elkaar “volgen”. Hierna kunnen beide elkaar foto's bekijken.
 
--    Alle gebruikers kunnen gebruikers die zij volgen niet meer volgen.
+-    Alle gebruikers kunnen gebruikers die zij volgen, ontvolgen.
 
 -    Gebruikers kunnen foto's uit de omgeving waar zij zich bevinden bekijken en :two_hearts:.
 
 -    Gebruikers kunnnen de locaties waar de foto is genomen bij het uploaden van een foto toevoegen. Dit geeft de mogelijkheid aan gebruikers om andere foto’s te bekijken die genomen zijn in de omgeving van de gebruiker.
 
--    Als gebruiker kan je trofeeën verzamelen als je  bepaalde scores behaalt.
+-    Als gebruiker kan je trofeeën verzamelen als je bepaalde scores behaalt.
 
--    Gebruikers kunnen alleen reageren op foto's met GIFjes. GIFjes worden ondersteund door de Giphy API.
+-    Gebruikers kunnen reageren op foto's met GIFjes. GIFjes worden ondersteund door de Giphy API.
 
 -    Gebruikers kunnen hun eigen profiel bekijken met hun eigen foto's.
 
