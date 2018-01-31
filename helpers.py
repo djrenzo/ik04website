@@ -4,22 +4,6 @@ import urllib.request
 from flask import redirect, render_template, request, session
 from functools import wraps
 
-
-def apology(message, code=400):
-    """Renders message as an apology to user."""
-    def escape(s):
-        """
-        Escape special characters.
-
-        https://github.com/jacebrowning/memegen#special-characters
-        """
-        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
-                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
-            s = s.replace(old, new)
-        return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
-
-
 def login_required(f):
     """
     Decorate routes to require login.
@@ -37,16 +21,7 @@ def login_required(f):
 def lookup(ip):
     """Look up quote for symbol."""
 
-    # reject symbol if it starts with caret
-    if ip.startswith("^"):
-        return None
-
-    # reject symbol if it contains comma
-    if "," in ip:
-        return None
-
-    # query Yahoo for quote
-    # http://stackoverflow.com/a/21351911
+    # query IP API for location
     try:
 
         # GET CSV
@@ -59,13 +34,13 @@ def lookup(ip):
         # parse first row
         row = next(datareader)
 
-        # ensure stock exists
+        # ensure ip exists
         try:
             success = row[0]
         except:
             return None
 
-        # return stock's name (as a str), price (as a float), and (uppercased) symbol (as a str)
+        # return location name
         return row
 
     except:
