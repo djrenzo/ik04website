@@ -121,7 +121,6 @@ def logout():
     # redirect user to login form
     return redirect(url_for("login"))
 
-
 @app.route("/friends", methods=["GET", "POST"])
 @login_required
 def friends():
@@ -136,14 +135,11 @@ def friends():
         gif = [g.trending()["data"][x]["id"] for x in range(1,20)]
         return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
-
-
-
 @app.route("/trophy")
 @login_required
 def trophy():
     """Trofee's laten zien."""
-    return trophies.trophy_progress(session["user_id"])
+    return render_template("trophy.html", trofee = trophies.manage_trophies(session["user_id"]))
 
 @app.route("/surrounding", methods=["GET", "POST"])
 @login_required

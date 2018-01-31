@@ -25,19 +25,23 @@
     </form>
 
     <script>
+        // show preview of upload file
         var loadFile = function(event) {
         var output = document.getElementById('output');
         output.src = URL.createObjectURL(event.target.files[0]);
         };
 
+        // display google map with location
         var map;
         var plaats;
         function myMap() {
+            // init map
             map = new google.maps.Map(document.getElementById("uploadMap"), {
                 center: {lat: 52.37783, lng: 4.87995},
                 zoom: 10
             });
 
+            // find location of click on map
             google.maps.event.addListener(map, 'click', function(event) {
                 var lat = event.latLng.lat();
                 var long = event.latLng.lng();
@@ -64,7 +68,7 @@
                 placeMarker(event.latLng);
             });
         };
-
+        // replace marker on new location
         var marker;
         function placeMarker(location) {
                 if (marker == null) {
