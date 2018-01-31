@@ -7,7 +7,7 @@
 
 ## Photo Sharing Website
 ### Samenvatting
-Het doel van onze website is om bezoekers van steden, zoals toeristen, te helpen met het vinden van populaire bezienswaardigheden. Het laat gebruikers foto's uit hun omgeving zien. Gebruikers kunnen dan die bepaalde foto's 'raten', door middel van een :x: of een :heart:. Op deze manier zijn de toeristen in staat de meest gelikete (en dus populairste) plekken te vinden en bezoeken. Gebruikers kunnen ook de andere gebruikers volgen om foto's van hen te zien, maar kunnen alleen maar foto's raten die in de omgeving van hun specifieke locatie genomen zijn. Deze website is uniek omdat het locatie aspect gebruikers alleen toestaat de foto's in de specifieke locatie te 'raten'. Hierdoor geven wij onze gebruikers de mogelijkheid om hun omgeving verder te verkennen.
+Het doel van onze website is om bezoekers van steden, zoals toeristen, te helpen met het vinden van populaire bezienswaardigheden. Het laat gebruikers foto's uit hun omgeving zien. Gebruikers kunnen dan die bepaalde foto's 'raten', door middel van een :thumbsdown: of een :thumbsup:. Op deze manier zijn de toeristen in staat de meest gelikete (en dus populairste) plekken te vinden en bezoeken. Gebruikers kunnen ook de andere gebruikers volgen om foto's van hen te zien, maar kunnen alleen maar foto's raten die in de omgeving van hun specifieke locatie genomen zijn. Deze website is uniek omdat het locatie aspect gebruikers alleen toestaat de foto's in de specifieke locatie te 'raten'. Hierdoor geven wij onze gebruikers de mogelijkheid om hun omgeving verder te verkennen.
 
 ---
 
