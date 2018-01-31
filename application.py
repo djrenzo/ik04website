@@ -45,7 +45,7 @@ Session(app)
 @app.route('/postmethod', methods = ['POST'])
 @login_required
 def get_javascript_data():
-    print(lookup(request.form['javascript_data'])[5])
+    # lookup adress from ip and set in db
     return user_class.setLocation(lookup(request.form['javascript_data'])[5], session["user_id"])
 
 # Post a gif
@@ -56,6 +56,8 @@ def gifpost():
 
     gif_link = "https://media.giphy.com/media/{}/giphy.gif".format(request.form.get("gif_id"))
     gif_photo_id = request.form.get("photo_id")
+
+    # add gif to db
     friend.registerGif( gif_photo_id, gif_link)
     print("giflink=",gif_link,"gfid=",gif_photo_id)
     return redirect(url_for("friends"))
@@ -78,6 +80,7 @@ def register():
     if request.method == "POST":
         user_class.register(request)
 
+        # if user is not valid
         if user_class.valid == False:
             return redirect(request.url)
 
@@ -98,6 +101,7 @@ def login():
     if request.method == "POST":
         user_class.login(request)
 
+        # if userid is blank or user is not valid
         if user_class.valid == False or user_class.userid == "":
             return redirect(request.url)
 
@@ -105,11 +109,7 @@ def login():
             session["user_id"] = user_class.userid
             return redirect(url_for("index"))
     else:
-        g = safygiphy.Giphy()
-        gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
-
-        # Will return a random GIF with the tag "success"
-        return render_template("login.html", gif_id=gif)
+        return render_template("login.html")
 
 @app.route("/logout")
 def logout():
@@ -129,8 +129,11 @@ def friends():
     if request.method == "GET":
         # foto's van vrienden hier
 
+        # init giphy api
         g = safygiphy.Giphy()
-        gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
+
+        # get the top trending gifs
+        gif = [g.trending()["data"][x]["id"] for x in range(1,20)]
         return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
 
@@ -166,8 +169,12 @@ def profile():
 def upload():
     """Upload pictures."""
     if request.method == "POST":
+
+        # get user specified location and add with pic to db
         plaats = request.form.get("plaats")
         file = request.files['upload']
+
+        # check if user actually uploaded file
         if file.filename == '':
             flash('Select a file')
             return redirect(request.url)
