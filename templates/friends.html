@@ -65,6 +65,9 @@ div.gallery .bottom-content {
 <body>
 <form action="{{ url_for('friends') }}" method="post">
     <fieldset>
+      <input type="hidden" id=gif_link_id name=gif_link_name></input>
+      <input type="hidden" id=gif_photo_id name=gif_photo_name></input>
+
 {% for photo in vrienden_photos %}
 <div class="gallery">
     <div><img href="#{{ photo['file_name'] }}" data-toggle="modal" data-target="#{{ photo['file_name'] }}" src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
@@ -98,7 +101,7 @@ div.gallery .bottom-content {
         </button>
       </div>
       <div class="modal-body">
-            <div><img style="hight: 150%; width: auto;" src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
+            <div><img onload="showGiph('{{ photo['gif'] }}', '{{ photo['file_name'] }}', '{{ photo['photo_id'] }}')" style="hight: 170%; width: auto;" src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
 
       </div>
       <div id="comments-{{ photo['file_name'] }}"></div>
@@ -106,25 +109,50 @@ div.gallery .bottom-content {
           <div style="border:1px solid black;height:100px;width:100%;overflow-y:hidden;overflow-x:scroll;">
             <p style="width:600%;">
                 {% for gif in gif_id %}
-                    <img onclick="postGiph('{{gif}}', '{{ photo['file_name'] }}')" style="float: left; height: 100px; width: auto;" src="https://media.giphy.com/media/{{gif}}/giphy.gif" alt="test" border="0">
+                    <img onclick="postGiph('{{gif}}', '{{ photo['file_name'] }}', '{{ photo['photo_id'] }}')" style="float: left; height: 100px; width: auto;" src="https://media.giphy.com/media/{{gif}}/giphy.gif" alt="test" border="0">
 
                     <script>
-
-                    function postGiph(idnumber, photonumber) {
+                    function postGiph(idnumber, photonumber, gif_photo_id) {
                         var img = document.createElement('img');
                         img.setAttribute('src', `https://media.giphy.com/media/${idnumber}/giphy.gif`);
                         img.setAttribute('style', `height:100px; width: auto`);
+                        if (document.getElementById(`comments-${photonumber}`).childElementCount > 0)
+                        {
+                            var list = document.getElementById(`comments-${photonumber}`);
+                            list.removeChild( list.childNodes[0]);
+                        }
                         document.getElementById(`comments-${photonumber}`).appendChild(img);
+
+                        document.getElementById(`gif_link_id`).value = `https://media.giphy.com/media/${idnumber}/giphy.gif`;
+                        document.getElementById(`gif_photo_id`).value = `${gif_photo_id}`;
                     }
 
+                    function showGiph(giflink, photonumber, gif_photo_id) {
+                        if (giflink =='')
+                            return;
+                        var img = document.createElement('img');
+                        img.setAttribute('src', `${giflink}`);
+                        img.setAttribute('style', `height:100px; width: auto`);
+                        if (document.getElementById(`comments-${photonumber}`).childElementCount > 0)
+                        {
+                            var list = document.getElementById(`comments-${photonumber}`);
+                            list.removeChild( list.childNodes[0]);
+                        }
+                        document.getElementById(`comments-${photonumber}`).appendChild(img);
+
+                        document.getElementById(`gif_link_id`).value = `${giflink}`;
+                        document.getElementById(`gif_photo_id`).value = `${gif_photo_id}`;
+                    }
                     </script>
                 {% endfor %}
             </p>
         </div>
       </div>
+      <button type="submit" name="submit_gif" value="Comment">Comment</button>
     </div>
   </div>
 </div>
+
 {% endfor %}
  </fieldset>
 </form>

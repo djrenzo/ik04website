@@ -119,7 +119,11 @@ def friends():
         return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
     else:
-        return render_template("friends.html")
+        gif_link = request.form.get("gif_link_name")
+        gif_photo_id = request.form.get("gif_photo_name")
+        friend.registerGif( gif_photo_id, gif_link)
+        print("giflink=",gif_link,"gfid=",gif_photo_id)
+        return redirect(url_for("friends"))
 
 
 @app.route("/trophy")
