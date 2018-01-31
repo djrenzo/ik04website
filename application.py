@@ -11,6 +11,7 @@ from helpers import *
 
 import safygiphy
 
+# initialize all model classes
 user_class = models.users.Users()
 friend = models.photos.Friends()
 profiles = models.photos.Profile()
@@ -40,11 +41,25 @@ app.config["UPLOAD_FOLDER"] = 'upload'
 Session(app)
 
 
+# Receive ip adress and use lookup to find location
 @app.route('/postmethod', methods = ['POST'])
 @login_required
-def get_post_javascript_data():
+def get_javascript_data():
     print(lookup(request.form['javascript_data'])[5])
     return user_class.setLocation(lookup(request.form['javascript_data'])[5], session["user_id"])
+
+# Post a gif
+@app.route('/gifpost', methods = ['POST'])
+@login_required
+def gifpost():
+    print(request.form.get("gifs"))
+
+    gif_link = "https://media.giphy.com/media/{}/giphy.gif".format(request.form.get("gif_id"))
+    gif_photo_id = request.form.get("photo_id")
+    friend.registerGif( gif_photo_id, gif_link)
+    print("giflink=",gif_link,"gfid=",gif_photo_id)
+    return redirect(url_for("friends"))
+
 
 @app.route("/")
 @login_required
@@ -118,12 +133,7 @@ def friends():
         gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
         return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
-    else:
-        gif_link = request.form.get("gif_link_name")
-        gif_photo_id = request.form.get("gif_photo_name")
-        friend.registerGif( gif_photo_id, gif_link)
-        print("giflink=",gif_link,"gfid=",gif_photo_id)
-        return redirect(url_for("friends"))
+
 
 
 @app.route("/trophy")
