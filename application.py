@@ -8,11 +8,15 @@ import models.users
 
 from helpers import *
 
+import safygiphy
+
 user_class = models.users.Users()
 friends = models.photos.Friends()
 profile = models.photos.Profile()
 upl = models.photos.Upload()
 surrounding = models.photos.Omgeving()
+
+
 
 # configure application
 app = Flask(__name__)
@@ -85,7 +89,11 @@ def login():
             session["user_id"] = user_class.userid
             return redirect(url_for("index"))
     else:
-        return render_template("login.html")
+        g = safygiphy.Giphy()
+        gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
+
+        # Will return a random GIF with the tag "success"
+        return render_template("login.html", gif_id=gif)
 
 @app.route("/logout")
 def logout():
@@ -104,7 +112,10 @@ def vrienden():
     """Fotos van Vrienden."""
     if request.method == "GET":
         # foto's van vrienden hier
-        return render_template("vrienden.html", vrienden_photos = friends.getFriendsPhotos(session["user_id"]))
+
+        g = safygiphy.Giphy()
+        gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
+        return render_template("vrienden.html", vrienden_photos = friends.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
     else:
         return render_template("vrienden.html")
