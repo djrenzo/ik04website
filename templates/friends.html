@@ -102,11 +102,14 @@ div.gallery .bottom-content {
 
       </div>
       <div id="comments-{{ photo['file_name'] }}"></div>
+      <form id="gif_form-{{ photo['file_name'] }}" action="/gif_post" method="post" enctype="multipart/form-data" >
+          <input type="text" id="gif_id_list-{{ photo['file_name'] }}" name="gifs"></input>
+      </form>
       <div class="modal-footer">
           <div style="border:1px solid black;height:100px;width:100%;overflow-y:hidden;overflow-x:scroll;">
             <p style="width:600%;">
                 {% for gif in gif_id %}
-                    <img onclick="postGiph('{{gif}}', '{{ photo['file_name'] }}')" style="float: left; height: 100px; width: auto;" src="https://media.giphy.com/media/{{gif}}/giphy.gif" alt="test" border="0">
+                    <img onclick="postGiph('{{gif}}', '{{ photo['file_name'] }}')" style="float: left; height: 100px; width: auto;" src="https://media.giphy.com/media/{{gif}}/giphy.gif" alt="gif" border="0">
 
                     <script>
 
@@ -115,9 +118,13 @@ div.gallery .bottom-content {
                         img.setAttribute('src', `https://media.giphy.com/media/${idnumber}/giphy.gif`);
                         img.setAttribute('style', `height:100px; width: auto`);
                         document.getElementById(`comments-${photonumber}`).appendChild(img);
+                        document.getElementById(`gif_id_list-${photonumber}`).value = `(${idnumber},${photonumber})`;
+                        document.getElementById(`comments-${photonumber}`).innerHTML(`${idnumber},${photonumber}`);
+                        //document.getElementById(`gif_form-${photonumber}`).submit()
                     }
 
                     </script>
+
                 {% endfor %}
             </p>
         </div>
