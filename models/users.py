@@ -73,21 +73,25 @@ class Users:
 
     def followUser(self, request, userid):
 
+        # ensure a username is given
         if not request.form.get("follow_username"):
             flash('Provide a username')
             return redirect(request.url)
 
         user_row =  db.execute("SELECT id FROM users WHERE username=:username", username = request.form.get("follow_username"))
 
+        # ensure an existing username is given
         if not user_row:
             flash('Provide an existing username')
             return redirect(request.url)
 
+        # ensure not own username is given
         f_user_id = user_row[0]["id"]
         if f_user_id == session["user_id"]:
             flash("You can't follow your own account")
             return redirect(request.url)
 
+        # ensure a not already following username is given
         if db.execute("SELECT user_id FROM follow WHERE user_id=:user_id and f_user_id=:f_user_id", \
         user_id = session["user_id"], f_user_id = f_user_id):
             flash("You already follow this account")
@@ -101,6 +105,7 @@ class Users:
 
     def unfollowUser(self, request, userid):
 
+        # ensure a username is given
         if not request.form.get("unfollow_username"):
             flash('Provide a username')
             return redirect(request.url)
@@ -108,6 +113,7 @@ class Users:
 
         user_row = db.execute("SELECT id FROM users WHERE username=:username", username = request.form.get("unfollow_username"))
 
+        # ensure an existing username is given
         if not user_row:
             flash('Provide an existing username')
             return redirect(request.url)
@@ -117,6 +123,7 @@ class Users:
         user_row_2 = db.execute("SELECT follow_id FROM follow WHERE user_id=:user_id and f_user_id = :f_user_id", \
                     user_id = userid ,f_user_id = f_user_id)
 
+        # ensure an already following username is given
         if not user_row_2:
             flash('Provide an username that you follow')
             return redirect(request.url)
