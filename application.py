@@ -5,6 +5,7 @@ from tempfile import mkdtemp
 from flask import send_from_directory
 import models.photos
 import models.users
+import models.trophies
 
 from helpers import *
 
@@ -15,7 +16,7 @@ friend = models.photos.Friends()
 profiles = models.photos.Profile()
 upl = models.photos.Upload()
 surroundings = models.photos.Omgeving()
-
+trophies = models.trophies.Trophies()
 
 
 # configure application
@@ -125,7 +126,7 @@ def friends():
 @login_required
 def trophy():
     """Trofee's laten zien."""
-    return render_template("trophy.html")
+    return trophies.trophy_progress(session["user_id"])
 
 @app.route("/surrounding", methods=["GET", "POST"])
 @login_required
