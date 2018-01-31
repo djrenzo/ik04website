@@ -12,7 +12,7 @@
         $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function(json) {
             $.post( "/postmethod", { javascript_data: json.ip});
         });
-        window.location.href = "{{ url_for('omgeving') }}";
+        window.location.href = "{{ url_for('surrounding') }}";
 </script>
 
 

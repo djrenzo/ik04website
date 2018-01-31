@@ -11,10 +11,10 @@ from helpers import *
 import safygiphy
 
 user_class = models.users.Users()
-friends = models.photos.Friends()
-profile = models.photos.Profile()
+friend = models.photos.Friends()
+profiles = models.photos.Profile()
 upl = models.photos.Upload()
-surrounding = models.photos.Omgeving()
+surroundings = models.photos.Omgeving()
 
 
 
@@ -106,44 +106,44 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/vrienden", methods=["GET", "POST"])
+@app.route("/friends", methods=["GET", "POST"])
 @login_required
-def vrienden():
+def friends():
     """Fotos van Vrienden."""
     if request.method == "GET":
         # foto's van vrienden hier
 
         g = safygiphy.Giphy()
         gif = [g.trending()["data"][x]["id"] for x in range(2,20)]
-        return render_template("vrienden.html", vrienden_photos = friends.getFriendsPhotos(session["user_id"]), gif_id=gif)
+        return render_template("friends.html", vrienden_photos = friend.getFriendsPhotos(session["user_id"]), gif_id=gif)
 
     else:
-        return render_template("vrienden.html")
+        return render_template("friends.html")
 
 
-@app.route("/trofee")
+@app.route("/trophy")
 @login_required
-def trofee():
+def trophy():
     """Trofee's laten zien."""
-    return render_template("trofee.html")
+    return render_template("trophy.html")
 
-@app.route("/omgeving", methods=["GET", "POST"])
+@app.route("/surrounding", methods=["GET", "POST"])
 @login_required
-def omgeving():
+def surrounding():
     """Fotos uit je omgeving."""
     if request.method == "GET":
         # foto's van omgeving hier
-        return render_template("omgeving.html", omgeving_photos = surrounding.getOmgevingPhotos(session["user_id"]))
+        return render_template("surrounding.html", omgeving_photos = surroundings.getOmgevingPhotos(session["user_id"]))
 
     else:
-        return surrounding.setLike(request, session["user_id"])
+        return surroundings.setLike(request, session["user_id"])
 
-@app.route("/profiel", methods=["GET"])
+@app.route("/profile", methods=["GET"])
 @login_required
-def profiel():
+def profile():
     """Profiel Laten Zien"""
     if request.method == "GET":
-        return render_template("profiel.html", profile_photos = profile.getProfilePhotos(session["user_id"]))
+        return render_template("profile.html", profile_photos = profiles.getProfilePhotos(session["user_id"]))
 
 
 @app.route("/upload", methods=["GET", "POST"])

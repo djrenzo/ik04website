@@ -9,15 +9,18 @@
     <form action="/upload" method="post" enctype="multipart/form-data" >
     <label class="btn btn-primary"> Browse <input type="file" style="display: none;" name="upload" accept="image/*" onchange="loadFile(event)">
     </label>
+
     <div class="form-group">
         <input autocomplete="off" autofocus class="form-control" name="photo_caption" placeholder="Schrijf een onderschrift" maxlength="50" type="text"/>
     </div>
     </br></br>
     <p> Selecteer de locatie waar deze foto genomen is</p>
     <div id="uploadMap" style="height: 400px"></div>
-    </br></br>
+    <br>
     <button type="submit" class="btn btn-primary">Upload image</button>
-    <img id="output"/>
+    </br></br>
+    <img style="height: 400px; width: auto;" id="output"/>
+    <br>
     <input type="hidden" id=plaats_id name=plaats></input>
     </form>
 

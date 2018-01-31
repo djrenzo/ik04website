@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Omgeving
+    Profiel
 {% endblock %}
 
 {% block main %}
@@ -63,9 +63,9 @@ div.gallery .bottom-content {
 </style>
 </head>
 <body>
-<form action="{{ url_for('omgeving') }}" method="post">
+<form action="{{ url_for('profile') }}" method="post">
     <fieldset>
-{% for photo in omgeving_photos %}
+{% for photo in profile_photos %}
 <div class="gallery">
     <div><img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
 
@@ -74,10 +74,10 @@ div.gallery .bottom-content {
     <p> Gemaakt door {{ photo["username"] }}</p>
     <p> {{ photo["caption"] }}</p>
     {{ photo["likes"] }}
-    <button class="btn btn-success" type="submit" name="like-{{photo['photo_id']}}" >
+    <button class="btn btn-success" type="button" disabled name="like-{{photo['photo_id']}}" >
         <i class="fa fa-thumbs-up"></i>
     </button>
-    <button class="btn btn-danger" type="submit" name="dislike-{{photo['photo_id']}}" >
+    <button class="btn btn-danger" type="button" disabled name="dislike-{{photo['photo_id']}}" >
         <i class="fa fa-thumbs-down"></i>
     </button>
     {{ photo["dislikes"] }}

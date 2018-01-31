@@ -18,7 +18,7 @@ class Upload:
 
         db.execute("INSERT INTO photos (user_id, file_name,locatie, caption) VALUES (:user_id, :file_name,:locatie,:caption)", \
         user_id = userid, file_name = unieke_foto_join, locatie = plaats, caption = caption)
-        return redirect(url_for("profiel"))
+        return redirect(url_for("profile"))
 
 class Friends:
 
@@ -38,7 +38,7 @@ class Friends:
         "WHERE f.user_id = :user_id and f.f_user_id = u.id and p.user_id = f.f_user_id", \
         user_id = userid)
 
-        return redirect(url_for("omgeving"))
+        return redirect(url_for("surrounding"))
 
 
 class Profile:
@@ -103,7 +103,7 @@ class Omgeving:
                     db.execute("INSERT INTO valuation (photo_id, user_id, like) VALUES (:photo_id, :user_id,:like)", \
                             photo_id = photo_like_id, user_id = userid, like = "FALSE")
 
-        return redirect(url_for("omgeving"))
+        return redirect(url_for("surrounding"))
 
 
 
