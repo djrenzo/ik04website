@@ -25,7 +25,7 @@ class Friends:
     def getFriendsPhotos(self, userid):
 
         return db.execute("SELECT CASE WHEN p.caption IS NULL THEN '' ELSE p.caption END as caption, p.photo_id, " + \
-        "p.file_name, u.username, " + \
+        "p.file_name, u.username, p.gif, " + \
         "CASE WHEN l.likes IS NULL THEN 0 ELSE l.likes END as likes, " + \
         "CASE WHEN d.dislikes IS NULL THEN 0 ELSE d.dislikes END as dislikes " + \
         "FROM users u, photos p, follow f " + \
@@ -39,6 +39,10 @@ class Friends:
         user_id = userid)
 
         return redirect(url_for("surrounding"))
+
+    def registerGif(self, photo_id, link):
+        db.execute("UPDATE photos SET gif = :gif WHERE photo_id = :photo_id", gif=link, photo_id=photo_id)
+
 
 
 class Profile:
