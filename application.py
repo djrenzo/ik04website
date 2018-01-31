@@ -12,6 +12,7 @@ user_class = models.users.Users()
 friends = models.photos.Friends()
 profile = models.photos.Profile()
 upl = models.photos.Upload()
+surrounding = models.photos.Omgeving()
 
 # configure application
 app = Flask(__name__)
@@ -106,7 +107,7 @@ def vrienden():
         return render_template("vrienden.html", vrienden_photos = friends.getFriendsPhotos(session["user_id"]))
 
     else:
-        return friends.setLike(request, session["user_id"])
+        return render_template("vrienden.html")
 
 
 @app.route("/trofee")
@@ -120,9 +121,11 @@ def trofee():
 def omgeving():
     """Fotos uit je omgeving."""
     if request.method == "GET":
-        return render_template("omgeving.html", items=[i for i in range(20)])
+        # foto's van omgeving hier
+        return render_template("omgeving.html", omgeving_photos = surrounding.getOmgevingPhotos(session["user_id"]))
+
     else:
-        return render_template("omgeving.html")
+        return surrounding.setLike(request, session["user_id"])
 
 @app.route("/profiel", methods=["GET"])
 @login_required

@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block main %}
-
     <html>
 <head>
 <style>
@@ -25,11 +24,18 @@ div.gallery:hover img{
 }
 
 div.gallery img {
-    width:auto;
-    max-height:100%;
+    position: absolute;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    /* For the following settings we set 100%, but it can be higher if needed
+    See the answer's update */
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
     transition: .5s ease;
 }
-
 
 div.desc {
     padding: 15px;
@@ -48,22 +54,41 @@ div.gallery:hover .overlayfade{
 }
 
 div.gallery .bottom-content {
-  position:absolute;
-   width:auto;
-    min-width:100%;
-    min-height:100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 </style>
 </head>
 <body>
-{% for item in items %}
+<form action="{{ url_for('omgeving') }}" method="post">
+    <fieldset>
+{% for photo in omgeving_photos %}
 <div class="gallery">
-    <img class="img-fluid" src="https://www.w3schools.com/css/img_fjords.jpg" alt="Fjords">
-  <div class="desc">{{item}}</div>
+    <div><img src="{{ url_for('uploaded', filename = photo['file_name'] )}}" alt="NotFound"></div>
+
+    <div class="overlayfade">
+    <div class="bottom-content">
+    <p> Gemaakt door {{ photo["username"] }}</p>
+    <p> {{ photo["caption"] }}</p>
+    {{ photo["likes"] }}
+    <button class="btn btn-success" type="submit" name="like-{{photo['photo_id']}}" >
+        <i class="fa fa-thumbs-up"></i>
+    </button>
+    <button class="btn btn-danger" type="submit" name="dislike-{{photo['photo_id']}}" >
+        <i class="fa fa-thumbs-down"></i>
+    </button>
+    {{ photo["dislikes"] }}
+    </div>
+    </div>
+
+
 </div>
 {% endfor %}
-
+ </fieldset>
+</form>
 </body>
 </html>
 {% endblock %}
