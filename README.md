@@ -7,6 +7,7 @@
 ## Demo-video
 Bekijk de demo-video van onze website op de volgende link: https://youtu.be/eBXBGxnf0Bc
 
+---
 
 ## Photo Sharing Website
 ### Samenvatting
